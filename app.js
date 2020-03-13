@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
+const { responses } = require('./middlewares');
 require('dotenv').config();
 const config = require('./config');
 
@@ -11,24 +12,24 @@ require('./dbConnection')();
 // parse application/json
 app.use(bodyParser.json());
 
+app.use([
+  responses,
+]);
+
 // register routes
 app.use('/api', require('./api'));
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
+app.use((req, res, next) => next(createError(404)));
 
 // error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = process.env.NODE_ENV === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  // only providing error in development
+  if (process.env.NODE_ENV === 'development') {
+    return res.sendUnknownError(err, err.message);
+  }
+  return res.sendUnknownError();
 });
 
 app.listen(config.APP.Port, () => {

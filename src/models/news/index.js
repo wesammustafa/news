@@ -4,45 +4,47 @@ class NewsRepository {
     this.News = News;
   }
 
-  async all(query) {
-    const DBQuery = {};
-    const select = query.select || {};
+  async getAll(query, select = '') {
+    const match = {};
+    const sort = {};
+    if (query.title) {
+      match.title = query.title;
+    }
 
-    const total = await this.News.find(DBQuery).countDocuments();
+    if (query.from) {
+      match.createdAt = { $gte: new Date(query.from).toISOString() };
+    }
+
+    if (query.to) {
+      match.createdAt = { $lte: new Date(query.to).toISOString() };
+    }
+
+    const total = await this.News.find(match).countDocuments();
     const page = Number(query.page) || 1;
-
-    const limit = Number(query.limit) || this.config.app.reading.perPage;
+    const limit = Number(query.limit) || this.config.APP.Reading.Default;
     const skip = (page - 1) * limit;
-    let to = skip + limit;
-    if (to > total) to = total;
 
-    const news = await this.News.find(DBQuery).select(select).skip(skip).limit(limit)
-      .sort({ created_at: -1 })
+    if (query.sortBy && query.OrderBy) {
+      sort[query.sortBy] = query.OrderBy === 'desc' ? -1 : 1;
+    } else {
+      sort.createdAt = -1;
+    }
+
+    const news = await this.News.find(match).select(select).skip(skip).limit(limit)
+      .sort(sort)
       .lean({ virtuals: true });
 
     return {
       total,
-      to,
       current_page: page,
       per_page: limit,
       data: news,
     };
   }
 
-  async getNewsById(id, select = {}) {
-    return this.News.findById(id).select(select).lean({ virtuals: true });
-  }
-
-  async updateNews(id, data) {
-    return this.News.updateOne({ _id: id }, data);
-  }
-
-  async deleteNews(id) {
-    return this.News.deleteOne({ _id: id });
-  }
-
-  getByIds(ids, select = {}) {
-    return this.News.find({ _id: { $in: ids } }).select(select);
+  async save(data) {
+    const news = new this.News(data);
+    return (await news.save()).toObject();
   }
 }
 

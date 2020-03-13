@@ -1,12 +1,15 @@
 const express = require('express');
-const NewsController = require('../src/controllers/v1.0/newsController');
+const Controller = require('../src/controllers/v1.0/newsController');
 const News = require('../src/models/news/model');
-const NewsRepository = require('../src/models/news');
+const Repository = require('../src/models/news');
+const config = require('../config');
+const validate = require('../src/validators/index')('v1');
 
-const newsController = new NewsController(new NewsRepository(News));
+const repository = new Repository(config, News);
+const controller = new Controller(repository);
 const router = express.Router();
 
-router.get('/', newsController.index);
-router.post('/', newsController.save);
+router.get('/', controller.index.bind(controller));
+router.post('/', validate('save').bind(validate), controller.save.bind(controller));
 
 module.exports = router;
