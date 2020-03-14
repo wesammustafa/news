@@ -32,37 +32,41 @@ A step by step series of examples that tell you how to get a development env run
         Eslint to enforce "airbnb-base" coding style
 
 ### Folder Structure
-
-        .
-        ├── api
-        │   ├── index.js
-        │   └── v1.0.js
-        ├── app.js
-        ├── config
-        │   ├── development.js
-        │   ├── index.js
-        │   └── test.js
-        ├── dbConnection
-        │   └── index.js
-        ├── development.env
-        ├── middlewares
-        │   ├── index.js
-        │   └── responses.js
-        ├── package.json
-        ├── package-lock.json
-        ├── README.md
-        ├── src
-        │   ├── controllers
-        │   │   └── v1.0
-        │   ├── repositories
-        │   │   └── news
-        │   └── validators
-        │       ├── index.js
-        │       └── v1.0
-        ├── test
-        │   └── integration
-        │       └── news.test.js
-        └── test.env
+```
+    ├── api
+    │   ├── index.js
+    │   └── v1.0.js
+    ├── app.js
+    ├── config
+    │   ├── development.js
+    │   ├── index.js
+    │   └── test.js
+    ├── dbConnection
+    │   └── index.js
+    ├── development.env
+    ├── middlewares
+    │   ├── index.js
+    │   └── responses.js
+    ├── package.json
+    ├── package-lock.json
+    ├── README.md
+    ├── src
+    │   ├── controllers
+    │   │   └── v1.0
+    │   │       └── newsController.js
+    │   ├── repositories
+    │   │   └── news
+    │   │       ├── index.js
+    │   │       └── model.js
+    │   └── validators
+    │       ├── index.js
+    │       └── v1.0
+    │           └── validator.js
+    ├── test
+    │   └── integeration
+    │       └── news.test.js
+    └── test.env
+```
 
 ## Authors
 
