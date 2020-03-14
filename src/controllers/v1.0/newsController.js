@@ -3,11 +3,11 @@ class NewsController {
     this.repository = repository;
   }
 
-  async index(req, res, next) {
+  async getAll(req, res, next) {
     try {
       const select = 'title description text createdAt';
       const result = await this.repository.getAll(req.query, select);
-      return res.sendCreatedSuccess(result);
+      return res.sendSuccess(result);
     } catch (err) {
       return next(err);
     }

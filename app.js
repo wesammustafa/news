@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const { responses } = require('./middlewares');
-require('dotenv').config();
+require('dotenv').config({ path: `${process.env.NODE_ENV}.env` });
 const config = require('./config');
 
 const app = express();
@@ -33,5 +33,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.APP.Port, () => {
-  console.log(config.CHALK.success(`News server is up and running on port: ${config.APP.Port}`));
+  console.log(config.CHALK.success(`${config.APP.Name} server is up and running on port: ${config.APP.Port}`));
 });
+
+module.exports = app;
