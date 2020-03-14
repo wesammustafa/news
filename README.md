@@ -33,6 +33,7 @@ A step by step series of examples that tell you how to get a development env run
 
 ### Folder Structure
 
+        .
         ├── api
         │   ├── index.js
         │   └── v1.0.js
@@ -52,11 +53,17 @@ A step by step series of examples that tell you how to get a development env run
         ├── README.md
         ├── src
         │   ├── controllers
+        │   │   └── v1.0
         │   ├── repositories
+        │   │   └── news
         │   └── validators
+        │       ├── index.js
+        │       └── v1.0
         ├── test
-        │   └── intgeration
+        │   └── integration
+        │       └── news.test.js
         └── test.env
+
 ## Authors
 
 * **Wesam Mustafa** - *Initial work* - [Wesam Mustafa](https://github.com/wesammustafa)
