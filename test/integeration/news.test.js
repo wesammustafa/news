@@ -13,7 +13,6 @@ describe('news', () => {
   });
 
   describe('GET /api/v1.0/news', () => {
-
     it('should return news empty list', async () => {
       const res = await request(app).get('/api/v1.0/news');
       expect(res.status).to.equal(200);

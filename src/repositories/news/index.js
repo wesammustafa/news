@@ -11,13 +11,17 @@ class NewsRepository {
       match.title = query.title;
     }
 
-    if (query.from) {
-      match.createdAt = { $gte: new Date(query.from).toISOString() };
+    if (query.from || query.to) {
+      match.createdAt = {};
+      if (query.from) {
+        match.createdAt.$gte = new Date(query.from).toISOString();
+      }
+
+      if (query.to) {
+        match.createdAt.$lte = new Date(query.to).toISOString();
+      }
     }
 
-    if (query.to) {
-      match.createdAt = { $lte: new Date(query.to).toISOString() };
-    }
 
     const total = await this.News.find(match).countDocuments();
     const page = Number(query.page) || 1;
